@@ -1,13 +1,17 @@
 # importing FastAPI
 from fastapi import FastAPI
+from typing import Optional
 
 
 # creating an instance of FastAPI
 app = FastAPI()
 
-@app.get('/')
-def index():
-    return {'data':'bloag list'}
+@app.get('/blog')
+def index(limit=10,published:bool=True,sort:Optional[str]=None):
+    if published:
+        return {'data':f'{limit} published blogs list'}    
+    else:
+        return {'data':f'{limit} non published blogs list'}    
 
 
 @app.get('/blog/unpublished')
@@ -18,8 +22,6 @@ def unpublished():
 def show(id :int):
     # fetch blog with id = id
     return {'data':id}
-
-
 
 
 @app.get('/blog/{id}/comments')
